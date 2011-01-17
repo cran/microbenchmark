@@ -1,0 +1,43 @@
+commit 5591ab3da8faf42766ee86894877ef8228dbad3e
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-01-17 09:51:12 +0100
+
+    Clarify license.
+
+commit 1a6214f8d75c9e5f940f0e6ef3630110a9db6e80
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-01-16 23:21:48 +0100
+
+    Change Title and Description in DESCRIPTION.
+
+commit adf929d49ca6ae6ad2d7809b1ae8ec3d8a1fb186
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-01-16 22:49:20 +0100
+
+    Deal with (too) fast evaluation timings.
+    
+    If the evaluation of an expression is sufficiently fast and the
+    overhead is overestimated sufficiently, the estimate of the true
+    evaluation time could be grossly exagerated.
+    
+    USER VISIBLE CHANGE: The microbenchmark object (a matrix) may now
+      contain 'NA' values if the measured time of evaluation is smaller than
+      the estimated evaluation overhead.
+    
+    RATIONAL: This is mainly a bugfix. In the past, this could lead to
+      very large values in the result object.
+    
+    WHAT TO CHANGE: You may need to adjust your analysis to deal with the
+      'NA' values.
+
+commit aa5b4374bdbb13c28d949baf3cce36d4aa9ee6e9
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-01-16 22:43:57 +0100
+
+    Cleanup Linux source code.
+
+commit 302fe1035f76a5ad35c750010d31fa2e93a49f97
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-01-16 02:40:49 +0100
+
+    Inital commit.
