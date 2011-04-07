@@ -1,10 +1,10 @@
 \name{microbenchmark}
 \alias{microbenchmark}
-\title{Nanosecond accurate timing of expression evaluation.}
-\usage{microbenchmark(..., list, times=100)
+\title{Sub-millisecond accurate timing of expression evaluation.}
+\usage{microbenchmark(..., list, times=100, control=list())
 }
-\description{Nanosecond accurate timing of expression evaluation.}
-\details{\code{nanobenchmark} serves as a more accurate replacement of the
+\description{Sub-millisecond accurate timing of expression evaluation.}
+\details{\code{microbenchmark} serves as a more accurate replacement of the
 often seen \code{system.time(replicate(1000, expr))}
 expression. It tries hard to accurately measure only the time it
 takes to evaluate \code{expr}. To achieved this, the
@@ -18,7 +18,20 @@ source code and to compare their relative performance
 characteristics. You should generally avoid benchmarking larger
 chunks of your code using this function. Instead, try using the R
 profiler to detect hot spots and consider rewriting them in C/C++
-or FORTRAN.}
+or FORTRAN.
+
+The \code{control} list can contain the following entries:
+\describe{
+\item{order}{the order in which the expressions are evaluated.
+\dQuote{random} (the default) randomizes the execution order,
+\dQuote{inorder} executes each expression in order and
+\dQuote{block} executes all repetitions of each expression
+as one block.}
+\item{warmup}{the number of warm-up iterations performed before
+the actual benchmark. These are used to estimate the timing
+overhead as well as spinning up the processor from any sleep
+or idle states it might be in. The default value is 2^}
+}}
 \note{Depending on the underlying operating system, different
 methods are used for timing. On Windows the
 \code{QueryPerformanceCounter} interface is used to measure the
@@ -36,16 +49,13 @@ a warning is thrown and the respective value is replaced by
 \value{Object of class \sQuote{microbenchmark}, a matrix with one
 column per exoression. Each row contains the time it took to
 evaluate the respective expression one time in nanoseconds.}
-\seealso{\code{\link{print.microbenchmark}} to display,
-\code{\link{boxplot.microbenchmark}} or
-\code{\link{ggplot.microbenchmark}} to plot and
-\code{\link{as.data.frame.microbenchmark}} or
-\code{\link{melt.microbenchmark}} to convert \code{microbenchmark}
-objects.}
+\seealso{\code{\link{print.microbenchmark}} to display and
+\code{\link{boxplot.microbenchmark}} to plot the results.}
 \author{Olaf Mersmann \email{olafm@datensplitter.ner}}
 \arguments{\item{...}{Expressions to benchmark.}
 \item{list}{List of unevaluated expression to benchmark.}
 \item{times}{Number of times to evaluate the expression.}
+\item{control}{List of control arguments. See Details.}
 }
 \examples{## Measure the time it takes to dispatch a simple function call
 ## compared to simply evaluating the constant \code{NULL}
@@ -60,8 +70,8 @@ boxplot(res)
 
 ## Pretty plot:
 if (require("ggplot2")) {
-plt <- ggplot(res)
-plt <- plt + geom_line() + scale_y_log10()
+plt <- ggplot2::qplot(y=time, data=res, colour=expr)
+plt <- plt + ggplot2::scale_y_log10()
 print(plt)
 }}
 

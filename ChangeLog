@@ -1,3 +1,37 @@
+commit 1b1ac21ef9562db092466806ffb26b9357be2ace
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-04-07 16:25:23 +0200
+
+    Many small improvements.
+    
+    * microbenchmark() now returns a data.frame instead of a matrix.
+    
+    * Ordering of the expression evaluation is user controllable.
+    
+    * A new (experimental) function is added to estimate the timing
+      overhead and the granularity of the underlying timer.
+    
+    * The documentation has improved.
+
+commit 0d968a6545bddfc526ddbecab15472cf3fd3ef14
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-01-25 19:06:47 +0100
+
+    General package improvements
+    
+     * The documentation has been extended and clarified in many places.
+    
+     * The length of the warmup phase is now user controllable using a
+      'control' argument to microbenchmark().
+    
+     * Milliseconds are now actual milliseconds and not microseconds.
+
+commit d4ab38ebc911e1da2bd9d9ce08b1070c6cb0ad51
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-01-24 19:24:29 +0100
+
+    Change wording of warning on underflow.
+
 commit 5591ab3da8faf42766ee86894877ef8228dbad3e
 Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
 Date:   2011-01-17 09:51:12 +0100
