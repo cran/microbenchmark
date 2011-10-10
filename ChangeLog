@@ -1,3 +1,34 @@
+commit e09b9c74c7b1cabcad52bc02c766ca4971c517f6
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-10-10 10:23:41 +0200
+
+    Fix use of uninitialized variable.
+
+commit ff091e8eac5ee5bb9eeb255a3a9901d7863e58ce
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-10-07 09:07:31 +0200
+
+    Remove unused variables in C code.
+
+commit fba26ef775317fe44ef64956e40cbfcef6983b1b
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-10-07 08:58:47 +0200
+
+    Add code 't' and 'f' units which choose an SI prefix automatically.
+    
+    The new units 't' and 'f' (time and frequency) can be used instead of
+    explicitly stating the units used to display the runtimes. The code
+    guessed the correct SI prefix based on the magnitute of the minium
+    observerd runtime.
+    
+    Patch by Claudia Beleites.
+
+commit 00d1fd850277ef16c671ac6a23f2478f96d40aa6
+Author: Olaf Mersmann <olafm@datensplitter.net>
+Date:   2011-08-16 21:04:10 +0200
+
+    Explicitly set _POSIX_C_SOURCE for better compatibility with c99 compilers.
+
 commit 1b1ac21ef9562db092466806ffb26b9357be2ace
 Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
 Date:   2011-04-07 16:25:23 +0200

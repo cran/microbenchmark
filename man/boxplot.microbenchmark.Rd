@@ -1,7 +1,7 @@
 \name{boxplot.microbenchmark}
 \alias{boxplot.microbenchmark}
 \title{Boxplot of microbenchmark timings.}
-\usage{\method{boxplot}{microbenchmark}(x, unit="ns", log=TRUE, xlab, ylab, ...)
+\usage{\method{boxplot}{microbenchmark}(x, unit="t", log=TRUE, xlab, ylab, ...)
 }
 \description{Boxplot of \code{microbenchmark} timings.}
 \author{Olaf Mersmann \email{olafm@datensplitter.net}}

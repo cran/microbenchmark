@@ -1,7 +1,7 @@
 \name{print.microbenchmark}
 \alias{print.microbenchmark}
 \title{Print microbenchmark timings.}
-\usage{\method{print}{microbenchmark}(x, unit="ns", ...)
+\usage{\method{print}{microbenchmark}(x, unit="t", ...)
 }
 \description{Print \code{microbenchmark} timings.}
 \details{The available units are nanoseconds (\code{"ns"}), microseconds
