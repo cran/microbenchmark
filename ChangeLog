@@ -1,3 +1,42 @@
+commit 0d53602fd3b77214b7d1552d860f5e2493c6cfe7
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-10-19 07:53:45 +0200
+
+    Do not run examples by default and add note why to help file.
+
+commit 44255fdce830b8f58501075655c3263e8c7a8cdf
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-10-19 07:48:32 +0200
+
+    Further improve error messages and add help page with tips.
+
+commit e879c03a4d2da7ad053441da99bb696c892a6a9c
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-10-18 13:46:40 +0200
+
+    Fix signed/unsigned and C99 issues of nanotime_t.
+
+commit 7e6881256dee11b19a38fb3f46cebb989a29ec39
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-10-17 15:53:30 +0200
+
+    Language / spelling fixes.
+
+commit e927f3766b3c6d12401ab235c9ac57af3c7a3065
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-10-17 15:50:51 +0200
+
+    Fix NA handling in find_prefix().
+
+commit 4b79bd205f1f791e85f06c61c63b37af527afdfe
+Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
+Date:   2011-10-17 15:12:14 +0200
+
+    Set required _POSIX_C_SOURCE to 200112L.
+    
+    Brian Ripley commented that it is invalid to compile a c99 source file
+    using versions prior to POSIX.1-2001. This should fix that.
+
 commit e09b9c74c7b1cabcad52bc02c766ca4971c517f6
 Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
 Date:   2011-10-10 10:23:41 +0200

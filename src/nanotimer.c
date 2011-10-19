@@ -34,17 +34,37 @@ SEXP do_nothing(SEXP a, SEXP b) {
     return a;
 }
 
-nanotime_t estimate_overhead(SEXP s_rho, int rounds) {
-    int i;
+nanotime_t estimate_overhead(SEXP s_rho, const int n_rounds) {
+    int i, n_back_in_time = 0, n_no_overhead = 0;
     /* Estimate minimal overhead and warm up the machine ... */
-    nanotime_t start, end, overhead = 1 << 31;
-    for (i = 0; i < rounds; ++i) {
+    nanotime_t start, end, overhead = UINT64_MAX;
+    for (i = 0; i < n_rounds; ++i) {
         start = get_nanotime();
         end = get_nanotime();
 
         const nanotime_t diff = end - start;
-        if (diff > 0 && diff < overhead)
+        if (start < end && diff < overhead) {
             overhead = diff;
+        } else if (start == end) {
+            n_no_overhead++;
+        } else if (start > end) {
+            n_back_in_time++;
+        }
+    }
+    if (n_back_in_time > 0) {
+        error("Observed negative overhead in %i cases. This can only happen "
+              "if the system time does not increase monotonically. Please see "
+              "?timing_issues for hints on how to investigate this.",
+              n_back_in_time);
+    } else if (UINT64_MAX == overhead) {
+        if (n_no_overhead == n_rounds) {
+            warning("Could not measure overhead of timing. Your system timer "
+                    "is probably not accurate enough.");
+        } else {
+            error("Overhead estimation failed. The observed overhead was maximally "
+                  "large. This should never happen. Please contact the package author "
+                  "if this persists.");
+        }
     }
     return overhead;
 }
@@ -56,12 +76,11 @@ SEXP do_microtiming_precision(SEXP s_rho, SEXP s_times, SEXP s_warmup) {
     nanotime_t overhead = estimate_overhead(s_rho, warmup);
     nanotime_t start, end;
     SEXP s_ret;
-    
     PROTECT(s_ret = allocVector(REALSXP, times));
     while (n < times) {
         start = get_nanotime();
         end = get_nanotime();
-        if (end - start > 0) {
+        if (start < end) {
             REAL(s_ret)[n] = end - start - overhead;
             n++;
         }
@@ -101,14 +120,20 @@ SEXP do_microtiming(SEXP s_exprs, SEXP s_rho, SEXP s_warmup) {
         s_tmp = eval(s_expr, s_rho);
         end = get_nanotime();
         
-        const nanotime_t diff = end - start;
-        if (diff < overhead) {
-            ret[i] = R_NaReal;
-            n_under_overhead++;
+        if (start < end) {
+            const nanotime_t diff = end - start;
+            if (diff < overhead) {
+                ret[i] = R_NaReal;
+                n_under_overhead++;
+            } else {
+                ret[i] = diff - overhead;
+            }
         } else {
-            ret[i] = diff - overhead;
+            error("Observed negative execution time. This can only happen if the "
+                  "system time does not increase monotonically. Please see "
+                  "?timing_issues for hints on how to investigate this.");
         }
-
+        
         /* Housekeeping */
         R_CheckUserInterrupt();
         /* R_gc(); */
@@ -119,13 +144,13 @@ SEXP do_microtiming(SEXP s_exprs, SEXP s_rho, SEXP s_warmup) {
      */
     if (n_under_overhead > 0) {
         if (n_under_overhead == 1) {
-            warning("Estimated overhead was greater than measured evaluation time inr 1 run.");
+            warning("Estimated overhead was greater than measured evaluation time in 1 run.");
         } else {
             warning("Estimated overhead was greater than measured evaluation time in %i runs.", 
                     n_under_overhead);
         }
     }
-    
+
     UNPROTECT(1); /* s_ret */
     return s_ret;
 }

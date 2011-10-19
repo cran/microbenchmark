@@ -46,6 +46,10 @@
 ##' measured evaluation time. Should the resulting timing be negative,
 ##' a warning is thrown and the respective value is replaced by
 ##' \code{NA}.
+##'
+##' If the example does not work for you, please consult
+##' \link{timing_issues} for a list of reasons why the example might
+##' fail and how to fix this.
 ##' 
 ##' @param ... Expressions to benchmark.
 ##' @param list List of unevaluated expression to benchmark.
@@ -58,10 +62,11 @@
 ##'
 ##' @seealso \code{\link{print.microbenchmark}} to display and
 ##' \code{\link{boxplot.microbenchmark}} to plot the results.
-##' 
+##'
 ##' @examples
+##' \dontrun{
 ##' ## Measure the time it takes to dispatch a simple function call
-##' ## compared to simply evaluating the constant \code{NULL}
+##' ## compared to evaluating the constant \code{NULL}
 ##' f <- function() NULL
 ##' res <- microbenchmark(NULL, f(), times=1000L)
 ##'
@@ -76,6 +81,7 @@
 ##'   plt <- ggplot2::qplot(y=time, data=res, colour=expr)
 ##'   plt <- plt + ggplot2::scale_y_log10()
 ##'   print(plt)
+##' }
 ##' }
 ##' 
 ##' @export
@@ -209,18 +215,19 @@ There are several causes for this. The most likely are
  * You have frequency scaling turned on. Most modern CPUs can reduce
    their core frequency if they are not busy. microbenchmark tries
    hard to spin up the CPU before the actual timing, but there is no
-   guarantee this work. You might want to disable this feature. Under
-   Linux this can be done using the 'cpufreq' utilities.
+   guarantee this works, so you are advised to disable this
+   feature. Under Linux this can be done using the 'cpufreq'
+   utilities.
 
  * You have a machine with many CPU cores and the timers provided by
    your operating system are not synchronized across cores. Your best
-   bet is it to peg your R process to a single core. On Linux systems,
+   bet is to peg your R process to a single core. On Linux systems,
    this can be achieved using the 'taskset' utility.
 
  * Your machine is super fast. If the difference between the estimated
    overhead and the actual execution time is zero (or possibly even
-   negative), you will get this error. Sorry, you're out of luck,
-   benchmark complexer code.
+   negative), you will get this error. Sorry,
+   you're out of luck, benchmark complexer code.
 
 If this problem persists for you, please contact me and I will try to
 resolve the issue with you."
@@ -288,8 +295,11 @@ convert_to_unit <- function(x, unit=c("ns", "us", "ms", "s", "t", "hz", "khz", "
 ##' @return character with the SI prefix
 ##' @author Claudia Beleites 
 find_prefix <- function (x, f = min, minexp = -Inf, maxexp = Inf, mu = TRUE){
- 
-  prefixes <- c ("y", "z", "a", "f", "p", "n", "u", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y")
+  ## OME: Remove all NAs. These might be present if the measured time
+  ## is lower than the timing overhead.  
+  x <- na.omit(x)
+  prefixes <- c ("y", "z", "a", "f", "p", "n", "u", "m", "",
+                 "k", "M", "G", "T", "P", "E", "Z", "Y")
   if (mu) prefixes [7] <- "\u03bc"
 
   if (is.numeric (minexp)) minexp <- floor (minexp / 3) 
@@ -301,7 +311,6 @@ find_prefix <- function (x, f = min, minexp = -Inf, maxexp = Inf, mu = TRUE){
 
   prefixes [e3 + 9] # e3 of -8 => index 1
 }
-
 
 ##' Return first non null argument.
 ##'

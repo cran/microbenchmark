@@ -45,7 +45,11 @@ of calling the timing functions and the C function call overhead
 are estimated. This estimated overhead is subtracted from each
 measured evaluation time. Should the resulting timing be negative,
 a warning is thrown and the respective value is replaced by
-\code{NA}.}
+\code{NA}.
+
+If the example does not work for you, please consult
+\link{timing_issues} for a list of reasons why the example might
+fail and how to fix this.}
 \value{Object of class \sQuote{microbenchmark}, a matrix with one
 column per exoression. Each row contains the time it took to
 evaluate the respective expression one time in nanoseconds.}
@@ -57,8 +61,9 @@ evaluate the respective expression one time in nanoseconds.}
 \item{times}{Number of times to evaluate the expression.}
 \item{control}{List of control arguments. See Details.}
 }
-\examples{## Measure the time it takes to dispatch a simple function call
-## compared to simply evaluating the constant \code{NULL}
+\examples{\dontrun{
+## Measure the time it takes to dispatch a simple function call
+## compared to evaluating the constant \code{NULL}
 f <- function() NULL
 res <- microbenchmark(NULL, f(), times=1000L)
 
@@ -73,5 +78,6 @@ if (require("ggplot2")) {
 plt <- ggplot2::qplot(y=time, data=res, colour=expr)
 plt <- plt + ggplot2::scale_y_log10()
 print(plt)
+}
 }}
 
