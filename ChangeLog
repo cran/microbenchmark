@@ -1,14 +1,92 @@
-commit 0d53602fd3b77214b7d1552d860f5e2493c6cfe7
-Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
-Date:   2011-10-19 07:53:45 +0200
+commit d50bda0ed5ef2620d88cdd2b54d76e7d3ca72be7
+Author: Olaf Mersmann <olafm@p-value.net>
+Date:   2013-02-19 13:47:14 +0100
 
-    Do not run examples by default and add note why to help file.
+    Remove superfluous LICENSE file.
 
-commit 44255fdce830b8f58501075655c3263e8c7a8cdf
-Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
-Date:   2011-10-19 07:48:32 +0200
+commit b9c2925114da4b56784b8d24e02846d292cda8c7
+Author: Olaf Mersmann <olafm@p-value.net>
+Date:   2013-02-19 13:45:27 +0100
 
-    Further improve error messages and add help page with tips.
+    Update DESCRIPTION.
+    
+    Updated the email address of the primary author and maintainer. Also
+    changed from the FreeBSD to the equivalent BSD license.
+
+commit fe8c553307e9e19aa766c0bc08ce2e716c928246
+Author: Olaf Mersmann <olafm@p-value.net>
+Date:   2013-02-19 13:39:45 +0100
+
+    Add OpenBSD support.
+    
+    Patch-By: Zé Loff
+
+commit 4a5ffc9d3626a96fe74eaa6d2f8415516df51bf2
+Author: Olaf Mersmann <olafm@p-value.net>
+Date:   2012-11-16 21:14:08 +0100
+
+    Add a new 'unit' option to microbenchmark.
+    
+    There is now a way to set the unit used to present the results when
+    calling microbenchmark(). You can also set the unit used globally by
+    setting the option 'microbenchmark.unit'. This commit also adds
+    FreeBSD support thanks to a patch from Rainer Hurling.
+    
+    Patch-by: Rainer Hurling (FreeBSD support)
+
+commit c8e546a572452a85ac9eacbc7a14ba8a19cbf189
+Author: Olaf Mersmann <olafm@p-value.net>
+Date:   2012-11-02 12:29:00 +0100
+
+    Multiple enhancements suggested by Hadley Wickham
+    
+    microbenchmark() now retains the order of the expressions as they are
+    passed in. print.microbenchmark() has a new unit 'relative' and a new
+    argument 'order'. The 'relative' unit rescales all other times
+    relative to the time of the quickest w.r.t the median time. Using the
+    'order' argument, you can reorder the results according to any of the
+    columns displayed.
+    
+    Apart from these major changes there are also several smaller bugfixes
+    in the handling of expressions and their representation as returned by
+    deparse().
+    
+    Suggested-By: Hadley Wickham
+
+commit e44fe8c7f39a57e1d137dc3cfa87903474d479c0
+Author: Olaf Mersmann <olafm@p-value.net>
+Date:   2012-08-23 10:19:13 +0200
+
+    Upgrade to roxygen2.
+
+commit f1c0358b0a593c0c3ca8fc6a0c80dab08d637ccd
+Author: Olaf Mersmann <olafm@p-value.net>
+Date:   2012-08-23 10:15:22 +0200
+
+    Add autplot method for microbenchmark objects
+    
+    The ggplot2 package as a new(ish) method named autoplot which is
+    used "to draw a particular plot for an object of a particular class
+    in a single command." This commit adds an implementation for
+    microbenchmark objects that draws a violin plot of the observed runtimes
+    on log scale.
+
+commit 8928057053ad43e1d72fdb1ca443a7db8fc83a84
+Author: Olaf Mersmann <olafm@p-value.net>
+Date:   2012-08-22 20:33:55 +0200
+
+    Cleanup documentation.
+
+commit 79d4a23db9fd79ccb8c9d60b33eb045fac11c4a7
+Author: Olaf Mersmann <olafm@p-value.net>
+Date:   2012-02-28 00:25:06 +0100
+
+    Fix typos in documentation.
+    
+    Fix several typos and spelling errors in the documentation. Thanks go
+    to Petr Savicky for reporting these.
+    
+    Reported-By: Petr Savicky
 
 commit e879c03a4d2da7ad053441da99bb696c892a6a9c
 Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
@@ -21,12 +99,6 @@ Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
 Date:   2011-10-17 15:53:30 +0200
 
     Language / spelling fixes.
-
-commit e927f3766b3c6d12401ab235c9ac57af3c7a3065
-Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>
-Date:   2011-10-17 15:50:51 +0200
-
-    Fix NA handling in find_prefix().
 
 commit 4b79bd205f1f791e85f06c61c63b37af527afdfe
 Author: Olaf Mersmann <olafm@statistik.tu-dortmund.de>

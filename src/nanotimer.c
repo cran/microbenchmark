@@ -14,8 +14,8 @@ typedef uint64_t nanotime_t;
   #include "nanotimer_windows.h"
 #elif defined(__MACH__) || defined(__APPLE__)
   #include "nanotimer_macosx.h"
-#elif defined(linux) || defined(__linux)
-  #include "nanotimer_linux.h"
+#elif defined(linux) || defined(__linux) || defined(__FreeBSD__) || defined(__OpenBSD__)
+  #include "nanotimer_gettime.h"
 #elif defined(sun) || defined(__sun) || defined(_AIX)
   #include "nanotimer_rtposix.h"
 #else /* Unsupported OS */
@@ -34,37 +34,28 @@ SEXP do_nothing(SEXP a, SEXP b) {
     return a;
 }
 
-nanotime_t estimate_overhead(SEXP s_rho, const int n_rounds) {
-    int i, n_back_in_time = 0, n_no_overhead = 0;
+nanotime_t estimate_overhead(SEXP s_rho, int rounds) {
+    int i, n_back_in_time = 0;
     /* Estimate minimal overhead and warm up the machine ... */
     nanotime_t start, end, overhead = UINT64_MAX;
-    for (i = 0; i < n_rounds; ++i) {
+    for (i = 0; i < rounds; ++i) {
         start = get_nanotime();
         end = get_nanotime();
 
         const nanotime_t diff = end - start;
         if (start < end && diff < overhead) {
             overhead = diff;
-        } else if (start == end) {
-            n_no_overhead++;
         } else if (start > end) {
             n_back_in_time++;
         }
     }
+    if (UINT64_MAX == overhead) {
+        error("Overhead estimation failed. No overhead could be observed or "
+              "the observed overhead was maximally large.");
+    }
     if (n_back_in_time > 0) {
-        error("Observed negative overhead in %i cases. This can only happen "
-              "if the system time does not increase monotonically. Please see "
-              "?timing_issues for hints on how to investigate this.",
-              n_back_in_time);
-    } else if (UINT64_MAX == overhead) {
-        if (n_no_overhead == n_rounds) {
-            warning("Could not measure overhead of timing. Your system timer "
-                    "is probably not accurate enough.");
-        } else {
-            error("Overhead estimation failed. The observed overhead was maximally "
-                  "large. This should never happen. Please contact the package author "
-                  "if this persists.");
-        }
+        warning("Observed negative overhead in %i cases.",
+                n_back_in_time);
     }
     return overhead;
 }
@@ -129,9 +120,8 @@ SEXP do_microtiming(SEXP s_exprs, SEXP s_rho, SEXP s_warmup) {
                 ret[i] = diff - overhead;
             }
         } else {
-            error("Observed negative execution time. This can only happen if the "
-                  "system time does not increase monotonically. Please see "
-                  "?timing_issues for hints on how to investigate this.");
+            error("Measured negative execution time! Please investigate and/or "
+                  "contact the package author.");
         }
         
         /* Housekeeping */
