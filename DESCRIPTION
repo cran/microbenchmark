@@ -1,18 +1,23 @@
 Package: microbenchmark
-Title: Sub microsecond accurate timing functions.
+Title: Accurate Timing Functions
 Description: Provides infrastructure to accurately measure and compare
         the execution time of R expressions.
-Author: Olaf Mersmann <olafm@p-value.net>
-Maintainer: Olaf Mersmann <olafm@p-value.net>
-License: BSD
-Suggests: ggplot2
-Imports: graphics
+Authors@R: c( person("Olaf", "Mersmann", role=c("aut", "cre"),
+        email="olafm@p-value.net"), person("Claudia", "Beleites",
+        role=c("ctb")), person("Rainer", "Hurling", role=c("ctb")),
+        person("Ari", "Friedman", role=c("ctb")))
+License: BSD_2_clause + file LICENSE
+Imports: graphics, ggplot2
+Suggests: multcomp
+ByteCompile: yes
 LazyData: yes
-Version: 1.3-0
-Collate: 'autoplot.R' 'boxplot.R' 'internal.R' 'microbenchmark.R'
-        'microtiming_precision.R' 'print.R' 'summary.R'
-Date:
-Packaged: 2013-02-19 17:16:47 UTC; olafm
+Version: 1.4-2
+Packaged: 2014-09-28 13:28:24 UTC; olafm
+Author: Olaf Mersmann [aut, cre],
+  Claudia Beleites [ctb],
+  Rainer Hurling [ctb],
+  Ari Friedman [ctb]
+Maintainer: Olaf Mersmann <olafm@p-value.net>
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2013-02-20 15:05:50
+Date/Publication: 2014-09-28 18:38:41
