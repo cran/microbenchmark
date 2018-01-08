@@ -18,6 +18,7 @@
 #' @return A \code{data.frame} containing the aggregated results.
 #'
 #' @seealso \code{\link{print.microbenchmark}}
+#' @importFrom stats aggregate fivenum lm
 #' @export
 #' @method summary microbenchmark
 summary.microbenchmark <- function(object, unit, ...) {
@@ -49,8 +50,8 @@ summary.microbenchmark <- function(object, unit, ...) {
     attr(res, "unit") <- attr(object$time, "unit")
   }
 
-  if (requireNamespace("multcomp", quietly=TRUE) && nrow(res) > 1
-      && all(res["neval"] > 1)) {
+  if (requireNamespace("multcomp", quietly = TRUE)
+      && nrow(res) > 1 && all(res["neval"] > 1)) {
     ## Try to calculate a statistically meaningful comparison. If it fails for
     ## any reason (f.e. the data might be constant), ignore the error.
     tryCatch({
