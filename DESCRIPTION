@@ -15,10 +15,10 @@ Imports: graphics, stats
 Suggests: ggplot2, multcomp
 ByteCompile: yes
 LazyData: yes
-Version: 1.4-3
+Version: 1.4-4
 RoxygenNote: 6.0.1
 NeedsCompilation: yes
-Packaged: 2018-01-07 15:48:40 UTC; josh
+Packaged: 2018-01-24 11:34:21 UTC; josh
 Author: Olaf Mersmann [aut],
   Claudia Beleites [ctb],
   Rainer Hurling [ctb],
@@ -26,4 +26,4 @@ Author: Olaf Mersmann [aut],
   Joshua M. Ulrich [cre]
 Maintainer: Joshua M. Ulrich <josh.m.ulrich@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-01-08 08:43:59 UTC
+Date/Publication: 2018-01-24 12:17:05 UTC

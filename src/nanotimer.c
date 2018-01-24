@@ -5,21 +5,26 @@
 #include <R_ext/Applic.h>
 #include <R_ext/Memory.h>
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "sexp_macros.h"
 #include "do_nothing.h"
 
-/* FIXME: Find portable 64 bit integer type. */
 typedef uint64_t nanotime_t;
 
 #if defined(WIN32)
 #include "nanotimer_windows.h"
-#elif defined(__MACH__) || defined(__APPLE__)
+#elif defined(MB_HAVE_MACH_TIME)
 #include "nanotimer_macosx.h"
-#elif defined(linux) || defined(__linux) || defined(__FreeBSD__) || defined(__OpenBSD__)
-#include "nanotimer_gettime.h"
-#elif defined(sun) || defined(__sun) || defined(_AIX)
+#elif defined(MB_HAVE_CLOCK_GETTIME) && defined(MB_CLOCKID_T)
+#include "nanotimer_clock_gettime.h"
+#elif defined(MB_HAVE_GETHRTIME)
 #include "nanotimer_rtposix.h"
-#else /* Unsupported OS */
+#elif defined(MB_HAVE_GETTIMEOFDAY)
+#include "nanotimer_gettimeofday.h"
+#else /* ./configure should prevent this, but just in case... */
 #error "Unsupported OS."
 #endif
 
