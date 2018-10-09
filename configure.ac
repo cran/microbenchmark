@@ -32,34 +32,6 @@ AC_TYPE_UINT64_T
 # Checks for library functions.
 AC_FUNC_ERROR_AT_LINE
 
-## https://www.gnu.org/software/autoconf/manual/autoconf-2.67/html_node/
-
-## http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/time.h.html
-## http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys_time.h.html
-## https://github.com/btorpey/clocks/blob/master/clocks.c
-
-## http://nadeausoftware.com/articles/2012/04/c_c_tip_how_measure_elapsed_real_time_benchmarking
-### has order to check for clockid_t
-## http://nadeausoftware.com/articles/2011/12/c_c_tip_how_list_compiler_predefined_macros
-## http://nadeausoftware.com/articles/2012/01/c_c_tip_how_use_compiler_predefined_macros_detect_operating_system
-
-## https://github.com/erlang/otp/blob/master/erts/aclocal.m4
-## https://github.com/python/cpython/blob/master/configure.ac
-## https://github.com/ChisholmKyle/PosixMachTiming/blob/master/src/timing_test.c
-## https://github.com/linux-test-project/ltp/search?utf8=%E2%9C%93&q=CLOCK_MONOTONIC_RAW&type=
-## https://github.com/realnc/frobtads/blob/master/configure.ac#L382
-
-# TODO: add args to configure for:
-#  - --with-clock_gettime
-#  - --with-clockid-CLOCK_MONOTONIC
-
-### Windows
-## QueryPerformanceCounter
-## GetSystemTimePreciseAsFileTime
-## GetSystemTimeAsFileTime
-#AC_CHECK_FUNCS([QueryPerformanceCounter GetSystemTimePreciseAsFileTime GetSystemTimeAsFileTime],
-#               [mb_cv_have_timer="yes"; break])
-
 mb_cv_have_timer="no"
 
 ## mach_absolute_time (macOS)
