@@ -1,10 +1,10 @@
-e5a2e01a4bc3f02b6c4d9752728a7053 *DESCRIPTION
+f6b070ff55a65b73e0d13ec6b38625d9 *DESCRIPTION
 b1b25761292a9a84f61599a0c1c8ddaf *LICENSE
 e118d949a414718cc2fcb0d481e55928 *NAMESPACE
 7ea442b2deb66dae0ff9b71d5e672bb9 *R/autoplot.R
 fa410abd1294d9d49ec63ae72025a108 *R/boxplot.R
 75a3bb7331b7f3a14137a9f5bcb4a8f0 *R/internal.R
-bd465bb1695853a0cdbcda4e8d530df0 *R/microbenchmark.R
+ad9b794ec4731be23b6b09d11d6f40e1 *R/microbenchmark.R
 04f32dc750c1b5cce9eb4631640b9d36 *R/microtiming_precision.R
 893cfbf5b68381929f50df4648223f4c *R/nanotime.R
 db11c7694728ff9a6b12f814aa0b8972 *R/print.R
@@ -13,7 +13,7 @@ bff861885d5576481f409abfc7aef65c *R/summary.R
 7ce5bcb3b919de728b57c7470cd90e01 *cleanup
 880cf488932c3aab8dfe028d453863e4 *configure
 2972337f6dcda6b352cceb9ab234063c *configure.ac
-7548e1dd0d0e19371df93c609c5bb98f *inst/tests/test_regression.R
+c226bd8a9828b39c5521371b40742481 *inst/tests/test_regression.R
 c62a7817963a12bc9e5a121a4d7d7f7b *man/autoplot.microbenchmark.Rd
 dfc3618c8ea094186166e5b5aa5aaafd *man/boxplot.microbenchmark.Rd
 1a8000fbfbbed000998e9a4ddcf9f2f0 *man/coalesce.Rd

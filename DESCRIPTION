@@ -19,10 +19,10 @@ SystemRequirements: On a Unix-alike, one of the C functions
         will be tried.
 ByteCompile: yes
 LazyData: yes
-Version: 1.4-5
+Version: 1.4-6
 RoxygenNote: 6.1.0
 NeedsCompilation: yes
-Packaged: 2018-10-08 11:26:36 UTC; josh
+Packaged: 2018-10-18 10:50:39 UTC; josh
 Author: Olaf Mersmann [aut],
   Claudia Beleites [ctb],
   Rainer Hurling [ctb],
@@ -30,4 +30,4 @@ Author: Olaf Mersmann [aut],
   Joshua M. Ulrich [cre]
 Maintainer: Joshua M. Ulrich <josh.m.ulrich@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-10-09 21:50:06 UTC
+Date/Publication: 2018-10-18 11:30:11 UTC
