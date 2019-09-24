@@ -1,6 +1,3 @@
-#' @useDynLib microbenchmark do_microtiming do_microtiming_precision
-{}
-
 #' Sub-millisecond accurate timing of expression evaluation.
 #'
 #' \code{microbenchmark} serves as a more accurate replacement of the
@@ -60,7 +57,9 @@
 #' @param ... Expressions to benchmark.
 #' @param list  List of unevaluated expression to benchmark.
 #' @param times Number of times to evaluate the expression.
-#' @param check Function to check if the expressions are equal. By default \code{NULL} which omits the check.
+#' @param check A function to check if the expressions are equal. By default \code{NULL} which omits the check.
+#' In addition to a function, a string can be supplied.
+#' The string \sQuote{equal} will compare all values using \code{\link{all.equal}}, \sQuote{equivalent} will compare all values using \code{\link{all.equal}} and check.attributes = FALSE, and \sQuote{identical} will compare all values using \code{\link{identical}}.
 #' @param control List of control arguments. See Details.
 #' @param unit Default unit used in \code{summary} and \code{print}.
 #' @param setup An unevaluated expression to be run (untimed) before each benchmark expression.
@@ -118,7 +117,16 @@
 #' \dontrun{
 #' microbenchmark(x, rnorm(10), check=my_check)
 #' }
-#' @export
+#' ## using check
+#' a <- 2
+#' microbenchmark(2 + 2, 2 + a, sum(2, a), sum(2, 2), check='identical')
+#' microbenchmark(2 + 2, 2 + a, sum(2, a), sum(2, 2), check='equal')
+#' attr(a, 'abc') <- 123
+#' microbenchmark(2 + 2, 2 + a, sum(2, a), sum(2, 2), check='equivalent')
+#' ## check='equal' will fail due to difference in attribute
+#' \dontrun{
+#' microbenchmark(2 + 2, 2 + a, sum(2, a), sum(2, 2), check='equal')
+#' }
 #' @author Olaf Mersmann
 microbenchmark <- function(..., list=NULL,
                            times=100L,
@@ -128,7 +136,7 @@ microbenchmark <- function(..., list=NULL,
                            setup=NULL) {
   stopifnot(times == as.integer(times))
   if (!missing(unit))
-    stopifnot(is.character("unit"), length(unit) == 1L)
+    stopifnot(is.character(unit), length(unit) == 1L)
 
   control[["warmup"]] <- coalesce(control[["warmup"]], 2^18L)
   control[["order"]] <- coalesce(control[["order"]], "random")
@@ -153,6 +161,13 @@ microbenchmark <- function(..., list=NULL,
 
     ## Evaluate values in parent environment
     values <- lapply(checkexprs, eval, env)
+    if (is.character(check) && isTRUE(check == 'equal')) {
+      check <- function(values) { all(sapply(values[-1], function(x) isTRUE(all.equal(values[[1]], x)))) }
+    } else if (is.character(check) && isTRUE(check == 'equivalent')) {
+      check <- function(values) { all(sapply(values[-1], function(x) isTRUE(all.equal(values[[1]], x, check.attributes = F)))) }
+    } else if (is.character(check) && isTRUE(check == 'identical')) {
+      check <- function(values) { all(sapply(values[-1], function(x) identical(values[[1]], x))) }
+    }
     ok <- check(values)
 
     if (!isTRUE(ok)) {
