@@ -55,8 +55,8 @@
 #' Please contact the package maintainer.
 #'
 #' @param ... Expressions to benchmark.
-#' @param list  List of unevaluated expression to benchmark.
-#' @param times Number of times to evaluate the expression.
+#' @param list  List of unevaluated expressions to benchmark.
+#' @param times Number of times to evaluate each expression.
 #' @param check A function to check if the expressions are equal. By default \code{NULL} which omits the check.
 #' In addition to a function, a string can be supplied.
 #' The string \sQuote{equal} will compare all values using \code{\link{all.equal}}, \sQuote{equivalent} will compare all values using \code{\link{all.equal}} and check.attributes = FALSE, and \sQuote{identical} will compare all values using \code{\link{identical}}.
@@ -130,13 +130,15 @@
 #' @author Olaf Mersmann
 microbenchmark <- function(..., list=NULL,
                            times=100L,
-                           unit,
+                           unit=NULL,
                            check=NULL,
                            control=list(),
                            setup=NULL) {
   stopifnot(times == as.integer(times))
-  if (!missing(unit))
+  if (!missing(unit) && !is.null(unit))
     stopifnot(is.character(unit), length(unit) == 1L)
+
+  unit <- normalize_unit(unit)
 
   control[["warmup"]] <- coalesce(control[["warmup"]], 2^18L)
   control[["order"]] <- coalesce(control[["order"]], "random")
@@ -188,6 +190,12 @@ microbenchmark <- function(..., list=NULL,
     stop("Unknown ordering. Must be one of 'random', 'inorder' or 'block'.")
   exprs <- exprs[o]
 
+  if (anyDuplicated(nm) > 0) {
+    duplicates <- nm[duplicated(nm)]
+    stop("Expression names must be unique. Duplicate expression names: ",
+         paste(duplicates, collapse = ", "))
+  }
+  expr <- factor(nm[o], levels = nm)
   res <- .Call(do_microtiming, exprs, env,
                as.integer(control$warmup), setup,
                PACKAGE="microbenchmark")
@@ -197,9 +205,9 @@ microbenchmark <- function(..., list=NULL,
   if (all(is.na(res)))
     .all_na_stop()
 
-  res <- data.frame(expr = factor(nm[o], levels = nm), time=res)
+  res <- data.frame(expr = expr, time=res)
   class(res) <- c("microbenchmark", class(res))
-  if (!missing(unit))
+  if (!is.null(unit))
     attr(res, "unit") <- unit
   res
 }

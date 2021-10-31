@@ -1,21 +1,56 @@
 library(microbenchmark)
 
-test.unit_argument <- function()
+test.unit_is_object_errors <- function()
 {
   out <- try(microbenchmark(NULL, unit=a), silent = TRUE)
   checkTrue(inherits(out, "try-error"))
 }
 
-test.unit_f <- function()
+test.unit_f_is_valid <- function()
 {
-  out <- try(print(microbenchmark(NULL, unit="f")), silent = TRUE)
+  out <- try(microbenchmark(NULL, unit="f"), silent = TRUE)
   checkTrue(!inherits(out, "try-error"))
 }
 
-test.unit_int <- function()
+test.unit_is_int_errors <- function()
 {
-  out <- try(print(microbenchmark(NULL, unit=4)), silent = TRUE)
+  out <- try(microbenchmark(NULL, unit=4), silent = TRUE)
   checkTrue(inherits(out, "try-error"))
+}
+
+kest.unit_arg_errors_before_printing <- function()
+{
+  out <- try(microbenchmark(NULL, unit="foo"), silent = TRUE)
+  checkTrue(inherits(out, "try-error"))
+}
+
+test.unit_arg_valid_values <- function()
+{
+  check <- function(x, u)
+  {
+    normu <- microbenchmark:::normalize_unit
+    checkIdentical(normu(u), attr(x, "unit"))
+  }
+
+  values <- c("nanoseconds", "ns",
+              "microseconds", "us",
+              "milliseconds", "ms",
+              "seconds", "s", "secs",
+              "time", "t",
+              "frequency", "f",
+              "hz", "khz", "mhz",
+              "eps")
+
+  for (u in values) {
+    out <- microbenchmark(NULL, unit = u, times = 1)
+    check(out, u)
+  }
+}
+
+test.unit_is_null_does_not_error <- function()
+{
+  out <- try(print(microbenchmark(NULL, unit = NULL)), silent = TRUE)
+  checkTrue(!inherits(out, "try-error"))
 }
 
 test.simple_timing <- function()
@@ -126,4 +161,10 @@ test.setup_expression_check_identical_failure <- function()
   attr(x = x, 'abc') <- 123 # add attribute
   out <- try(microbenchmark(rnorm(1e5), x, check = 'equal', setup = set.seed(21)), silent = T)
   checkTrue(inherits(out, "try-error"))
+}
+
+test.print_returns_input <- function()
+{
+  x <- microbenchmark( 5 + 6, 6 + 7, times = 2)
+  identical(x, print(x))
 }
