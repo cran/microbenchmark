@@ -1,4 +1,4 @@
-db11387ce9cc0dfe6d57ae91eacc2841 *DESCRIPTION
+e7534081d575cb502fb863b93eb2604a *DESCRIPTION
 b1b25761292a9a84f61599a0c1c8ddaf *LICENSE
 e118d949a414718cc2fcb0d481e55928 *NAMESPACE
 a798171111d21c2c3518cd814d1cb497 *R/autoplot.R
@@ -13,7 +13,7 @@ b9f31c75d84de9beef8d280bd14602f5 *R/summary.R
 7ce5bcb3b919de728b57c7470cd90e01 *cleanup
 e5bd79e84e6f3f94983893268a80ab5a *configure
 8190535d1ced881ca143a45e9314df36 *configure.ac
-3451b6389c4b19287f22d112077d3935 *inst/unitTests/runit_test_regression.R
+b40fd2bb087d92f9ea2b3f3f6939b4bc *inst/unitTests/runit_test_regression.R
 3eb6fa04486311c5e02b770968be25d1 *man/autoplot.microbenchmark.Rd
 374afab0f69505d858ccd2a68f0ced54 *man/boxplot.microbenchmark.Rd
 1a8000fbfbbed000998e9a4ddcf9f2f0 *man/coalesce.Rd
