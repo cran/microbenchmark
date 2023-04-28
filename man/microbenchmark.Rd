@@ -101,10 +101,12 @@ Please contact the package maintainer.
 ## Measure the time it takes to dispatch a simple function call
 ## compared to simply evaluating the constant \code{NULL}
 f <- function() NULL
-res <- microbenchmark(NULL, f(), times=1000L)
+res <- microbenchmark(NULL, f(), times=100L)
 
 ## Print results:
 print(res)
+
+dput(res)
 
 ## Plot results:
 boxplot(res)
