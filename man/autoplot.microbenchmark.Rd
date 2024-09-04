@@ -5,33 +5,46 @@
 \title{Autoplot method for microbenchmark objects: Prettier graphs for
 microbenchmark using ggplot2}
 \usage{
-autoplot.microbenchmark(object, ..., log = TRUE, y_max = NULL)
+autoplot.microbenchmark(
+  object,
+  ...,
+  order = NULL,
+  log = TRUE,
+  unit = NULL,
+  y_max = NULL
+)
 }
 \arguments{
-\item{object}{A microbenchmark object}
+\item{object}{A microbenchmark object.}
 
-\item{\dots}{Ignored}
+\item{\dots}{Ignored.}
+
+\item{order}{Names of output column(s) to order the results.}
 
 \item{log}{If \code{TRUE} the time axis will be on log scale.}
 
+\item{unit}{The unit to use for graph labels.}
+
 \item{y_max}{The upper limit of the y axis, in the unit automatically
-chosen for the time axis (defaults to the maximum value)}
+chosen for the time axis (defaults to the maximum value).}
 }
 \value{
-A ggplot2 plot
+A ggplot2 object.
 }
 \description{
-Uses ggplot2 to produce a more legible graph of microbenchmark timings
+Uses ggplot2 to produce a more legible graph of microbenchmark timings.
 }
 \examples{
-if (requireNamespace("ggplot2")) {
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+    tm <- microbenchmark(rchisq(100, 0),
+                         rchisq(100, 1),
+                         rchisq(100, 2),
+                         rchisq(100, 3),
+                         rchisq(100, 5), times=1000L)
+    ggplot2::autoplot(tm)
 
-tm <- microbenchmark(rchisq(100, 0),
-                     rchisq(100, 1),
-                     rchisq(100, 2),
-                     rchisq(100, 3),
-                     rchisq(100, 5), times=1000L)
-ggplot2::autoplot(tm)
+    # add a custom title
+    ggplot2::autoplot(tm) + ggplot2::ggtitle("my timings")
 }
 }
 \author{

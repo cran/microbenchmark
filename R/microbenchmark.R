@@ -23,10 +23,10 @@
 #'   \dQuote{inorder} executes each expression in order and
 #'   \dQuote{block} executes all repetitions of each expression
 #'     as one block.}
-#' \item{warmup}{the number of warm-up iterations performed before
-#'   the actual benchmark. These are used to estimate the timing
-#'   overhead as well as spinning up the processor from any sleep
-#'   or idle states it might be in. The default value is 2.}
+#' \item{warmup}{the number of iterations to run the timing code before
+#'   evaluating the expressions in \dots. These warm-up iterations are used
+#'   to estimate the timing overhead as well as spinning up the processor
+#'   from any sleep or idle states it might be in. The default value is 2.}
 #' }
 #'
 #' @note Depending on the underlying operating system, different
@@ -138,7 +138,7 @@ microbenchmark <- function(..., list=NULL,
   if (!missing(unit) && !is.null(unit))
     stopifnot(is.character(unit), length(unit) == 1L)
 
-  unit <- normalize_unit(unit)
+  unit <- determine_unit(unit = unit)
 
   control[["warmup"]] <- coalesce(control[["warmup"]], 2^18L)
   control[["order"]] <- coalesce(control[["order"]], "random")

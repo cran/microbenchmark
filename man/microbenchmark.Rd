@@ -65,10 +65,10 @@ The \code{control} list can contain the following entries:
   \dQuote{inorder} executes each expression in order and
   \dQuote{block} executes all repetitions of each expression
     as one block.}
-\item{warmup}{the number of warm-up iterations performed before
-  the actual benchmark. These are used to estimate the timing
-  overhead as well as spinning up the processor from any sleep
-  or idle states it might be in. The default value is 2.}
+\item{warmup}{the number of iterations to run the timing code before
+  evaluating the expressions in \dots. These warm-up iterations are used
+  to estimate the timing overhead as well as spinning up the processor
+  from any sleep or idle states it might be in. The default value is 2.}
 }
 }
 \note{
@@ -101,12 +101,10 @@ Please contact the package maintainer.
 ## Measure the time it takes to dispatch a simple function call
 ## compared to simply evaluating the constant \code{NULL}
 f <- function() NULL
-res <- microbenchmark(NULL, f(), times=100L)
+res <- microbenchmark(NULL, f(), times=1000L)
 
 ## Print results:
 print(res)
-
-dput(res)
 
 ## Plot results:
 boxplot(res)

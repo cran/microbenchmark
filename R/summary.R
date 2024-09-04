@@ -7,7 +7,7 @@
 #' \code{microbenchmark.unit} is used and if neither is set
 #' \dQuote{t} is used.
 #'
-#' @param ... Passed to \code{print.data.frame}
+#' @param ... Ignored
 #'
 #' @param include_cld Calculate \code{cld} using \code{multcomp::glht()}
 #' and add it to the output. Set to \code{FALSE} if the calculation takes
@@ -27,15 +27,12 @@ summary.microbenchmark <- function(object, unit, ..., include_cld = TRUE) {
   ## Choose unit if not given based on unit attribute of object or
   ## global option. Default to 't' if none is set.
   if (missing(unit)) {
-    unit <- if (!is.null(attr(object, "unit")))
-      attr(object, "unit")
-    else
-      getOption("microbenchmark.unit", "t")
-  } else {
-    unit <- normalize_unit(unit)
+    unit <- NULL
   }
+  unit <- determine_unit(object, unit)
+
   if (unit != "relative")
-    object$time <- convert_to_unit(object$time, unit)
+    object$time <- convert_to_unit(object, unit)
 
   res <- aggregate(time ~ expr, object,
                    function(z) {
